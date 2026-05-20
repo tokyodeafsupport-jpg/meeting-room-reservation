@@ -31,6 +31,7 @@ export type Database = {
           color?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       rooms: {
         Row: {
@@ -51,6 +52,7 @@ export type Database = {
           floor?: number;
           has_restriction?: boolean;
         };
+        Relationships: [];
       };
       reservations: {
         Row: {
@@ -83,6 +85,22 @@ export type Database = {
           purpose?: string;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "reservations_room_id_fkey";
+            columns: ["room_id"];
+            isOneToOne: false;
+            referencedRelation: "rooms";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reservations_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: Record<string, never>;

@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Reservation, ReservationInsert, ReservationUpdate } from "@/types/database";
 
-export async function fetchReservations(dateFrom: string, dateTo: string) {
+export async function fetchReservations(dateFrom: string, dateTo: string): Promise<Reservation[]> {
   if (!supabase) {
     return [] as Reservation[];
   }
@@ -21,7 +21,7 @@ export async function fetchReservations(dateFrom: string, dateTo: string) {
   return data ?? [];
 }
 
-export async function createReservation(input: ReservationInsert) {
+export async function createReservation(input: ReservationInsert): Promise<Reservation> {
   if (!supabase) {
     throw new Error("Supabase environment variables are not configured.");
   }
@@ -32,10 +32,10 @@ export async function createReservation(input: ReservationInsert) {
     throw error;
   }
 
-  return data;
+  return data as Reservation;
 }
 
-export async function updateReservation(id: string, input: ReservationUpdate) {
+export async function updateReservation(id: string, input: ReservationUpdate): Promise<Reservation> {
   if (!supabase) {
     throw new Error("Supabase environment variables are not configured.");
   }
@@ -46,7 +46,7 @@ export async function updateReservation(id: string, input: ReservationUpdate) {
     throw error;
   }
 
-  return data;
+  return data as Reservation;
 }
 
 export async function deleteReservation(id: string) {

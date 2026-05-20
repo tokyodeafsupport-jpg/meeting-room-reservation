@@ -2,7 +2,7 @@ import { ROOM_SORT_ORDER } from "@/lib/constants";
 import { supabase } from "@/lib/supabase/client";
 import type { Room } from "@/types/database";
 
-export async function fetchRooms() {
+export async function fetchRooms(): Promise<Room[]> {
   if (!supabase) {
     return [] as Room[];
   }

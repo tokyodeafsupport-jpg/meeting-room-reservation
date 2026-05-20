@@ -43,17 +43,19 @@ export default function UsersPage() {
   }, [loadData]);
 
   useEffect(() => {
-    if (!supabase) {
+    const client = supabase;
+
+    if (!client) {
       return;
     }
 
-    const channel = supabase
+    const channel = client
       .channel("users-realtime")
       .on("postgres_changes", { event: "*", schema: "public", table: "users" }, () => void loadData())
       .subscribe();
 
     return () => {
-      void supabase.removeChannel(channel);
+      void client.removeChannel(channel);
     };
   }, [loadData]);
 

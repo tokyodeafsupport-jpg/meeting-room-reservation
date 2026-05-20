@@ -68,11 +68,13 @@ export default function HomePage() {
   }, [loadData]);
 
   useEffect(() => {
-    if (!supabase) {
+    const client = supabase;
+
+    if (!client) {
       return;
     }
 
-    const channel = supabase
+    const channel = client
       .channel("calendar-realtime")
       .on("postgres_changes", { event: "*", schema: "public", table: "reservations" }, () => void loadData())
       .on("postgres_changes", { event: "*", schema: "public", table: "users" }, () => void loadData())
@@ -80,7 +82,7 @@ export default function HomePage() {
       .subscribe();
 
     return () => {
-      void supabase.removeChannel(channel);
+      void client.removeChannel(channel);
     };
   }, [loadData]);
 

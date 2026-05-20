@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 import type { User, UserInsert, UserUpdate } from "@/types/database";
 
-export async function fetchUsers() {
+export async function fetchUsers(): Promise<User[]> {
   if (!supabase) {
     return [] as User[];
   }
@@ -15,7 +15,7 @@ export async function fetchUsers() {
   return data ?? [];
 }
 
-export async function createUser(input: UserInsert) {
+export async function createUser(input: UserInsert): Promise<User> {
   if (!supabase) {
     throw new Error("Supabase environment variables are not configured.");
   }
@@ -26,10 +26,10 @@ export async function createUser(input: UserInsert) {
     throw error;
   }
 
-  return data;
+  return data as User;
 }
 
-export async function updateUser(id: string, input: UserUpdate) {
+export async function updateUser(id: string, input: UserUpdate): Promise<User> {
   if (!supabase) {
     throw new Error("Supabase environment variables are not configured.");
   }
@@ -40,7 +40,7 @@ export async function updateUser(id: string, input: UserUpdate) {
     throw error;
   }
 
-  return data;
+  return data as User;
 }
 
 export async function deleteUser(id: string) {
